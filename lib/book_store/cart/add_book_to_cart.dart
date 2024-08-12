@@ -16,8 +16,7 @@ addBookToCart(){
           cartList.add(id);
           exist = true;
           total = total + (bookData[i]['price']) ;
-          print( "Until Now You have ${cartList.length} book the cart is :$total");
-
+          print( "Until Now You have ${cartList.length} book the total is :$total");
           break;
         }
       }
@@ -25,7 +24,18 @@ addBookToCart(){
       print("Do you want to add another item (Y/N) ? ");
       String? ans = stdin.readLineSync()!;
       if(ans=="Y"){
-        continue;
+        if(cartList.length<3){
+          if(total<100){
+            continue;
+          } else {
+            print("You cannot add this book because totoal ($total) > balance ($balance)");
+            break;
+          }
+        }
+        else{
+          print("Cart limit exceeded, You can't add more");
+          break;
+        }
       }
       else if (ans=="N"){
         print("********Welcome to BookStore Application**************");
@@ -40,6 +50,5 @@ addBookToCart(){
 
   }
 }
-
 
 
