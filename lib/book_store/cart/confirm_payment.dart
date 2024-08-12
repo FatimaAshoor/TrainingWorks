@@ -5,6 +5,6 @@ confirmPayment(){
     print( "Your Cart is Empty Now");
   }
   else{
-    print( "Your Payment Succeeded , Your balance now total");
+    print( "Your Payment Succeeded , Your balance now $balance");
   }
 }
