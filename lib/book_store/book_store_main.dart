@@ -10,7 +10,7 @@ import 'cart/display_one_book.dart';
 import 'cart/show_balance.dart';
 
 main(){
-  print("******** Welcome to BookStore Application **************\n1. View Books\n2. Add Book\n3. Remove Book\n4. Search Books\n5. Add To Shopping Cart\n6. Manage Shopping Cart\n7. Confirm Payment\n8. Check Your Balance\n9. Get Details of One book\nq. Exit\n*********************************************");
+  print("******** Welcome to BookStore Application **************\n1. View Books\n2. Add Book\n3. Remove Book\n4. Search Books\n5. Add To Shopping Cart\n6. Manage Shopping Cart\n7. Confirm Payment\n8. Check Your Balance\n9. Get Details of One book\nq. Exit\n*********************************************\nEnter your choice:");
   String? c = stdin.readLineSync()!;
 
   switch(c){
