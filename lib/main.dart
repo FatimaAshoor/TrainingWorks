@@ -1,6 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -78,13 +77,13 @@ class _MyHomePageState extends State<MyHomePage> {
       if(operation=='+'){
         finalResult = (num1+num2).toString();
       }
-      if(operation=='-'){
+      else if(operation=='-'){
         finalResult = (num1-num2).toString();
       }
-      if(operation=='x'){
+      else if(operation=='x'){
         finalResult = (num1*num2).toString();
       }
-      if(operation=='÷'){
+      else if(operation=='÷'){
         finalResult = (num1/num2).toString();
       }
     }
@@ -99,32 +98,36 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget calcButton(String btnText, Color btnColor, Color textColor){
     return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-      child: MaterialButton(
+      padding: EdgeInsets.all(10),
+      child: ElevatedButton(
         onPressed: (){
           checkPressedButton(btnText);
         },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: btnColor,
+          foregroundColor: textColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
         child: Text("$btnText", style: TextStyle(fontSize: 35, color: textColor),),
-        color: btnColor,
-        padding: EdgeInsets.all(20),
       ),
     );
   }
 
-
-
+  List calList = ['C', '+/-', '%', '÷', '7', '8', '9', 'x', '4', '5', '6', '-', '1', '2', '3', '+', '0', '.', '='];
+  int index = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black26,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 5),
-        child: SingleChildScrollView(
-          child: Column(
+        child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              SingleChildScrollView(
-                scrollDirection: Axis.vertical,
+              Expanded(
+                flex: 1,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -134,70 +137,20 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  calcButton("C", Colors.grey, Colors.black),
-                  calcButton("+/-", Colors.grey, Colors.black),
-                  calcButton("%", Colors.grey, Colors.black),
-                  calcButton("÷", Colors.orange, Colors.white),
-                ],
-              ),
-              SizedBox(height:10,),
-          
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  calcButton("7", Colors.white10, Colors.white),
-                  calcButton("8", Colors.white10, Colors.white),
-                  calcButton("9", Colors.white10, Colors.white),
-                  calcButton("x", Colors.orange, Colors.white),
-                ],
-              ),
-              SizedBox(height:10,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  calcButton("4", Colors.white10, Colors.white),
-                  calcButton("5", Colors.white10, Colors.white),
-                  calcButton("6", Colors.white10, Colors.white),
-                  calcButton("-", Colors.orange, Colors.white),
-                ],
-              ),
-              SizedBox(height:10,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  calcButton("1", Colors.white10, Colors.white),
-                  calcButton("2", Colors.white10, Colors.white),
-                  calcButton("3", Colors.white10, Colors.white),
-                  calcButton("+", Colors.orange, Colors.white),
-                ],
-              ),
-              SizedBox(height:10,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                    child: MaterialButton(
-                        onPressed: (){
-                          setState(() {
-                            checkPressedButton("0");
-                          });
-                        },
-                      padding: EdgeInsets.fromLTRB(34, 20, 128, 20),
-                      child: Text("0 ", style: TextStyle(fontSize: 35, color: Colors.white),),
-                      color: Colors.white10,
+              Expanded(
+                flex: 3,
+                child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4,
+                      childAspectRatio: index==16? 2.0 : 1.0,
                     ),
-                  ),
-                  calcButton(",", Colors.white10, Colors.white),
-                  calcButton("=", Colors.orange, Colors.white),
-                ],
+                    itemCount: calList.length,
+                    itemBuilder: (context, i){
+                      index = i;
+                      return calcButton(calList[i], i==0? Colors.grey : i==1? Colors.grey : i==2? Colors.grey : i%4==3? Colors.orange : Colors.white10 , i==0? Colors.black : i==1? Colors.black : i==2? Colors.black : Colors.white);
+                }),
               ),
-              SizedBox(height:10,),
             ],
-          ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
