@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
       num2 = 0;
       operation = '';
     }
-    else if (value == "+" || value == "-" || value =="x" || value == "/"){
+    else if (value == "+" || value == "-" || value =="x" || value == "÷"){
       num1 = double.parse(result);
       operation = value;
       finalResult = "0";
@@ -84,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
       if(operation=='x'){
         finalResult = (num1*num2).toString();
       }
-      if(operation=='/'){
+      if(operation=='÷'){
         finalResult = (num1/num2).toString();
       }
     }
