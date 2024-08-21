@@ -33,6 +33,9 @@ class _ResultPageState extends State<ResultPage> {
     return Scaffold(
       backgroundColor: Color(0xff0A0E21),
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.white,
+        ),
         title: Text("BMI Calculator", style: TextStyle(fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),),
         centerTitle: true,
         backgroundColor:  Color(0xff0A0E21) ,

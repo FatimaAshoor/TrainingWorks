@@ -12,7 +12,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     String? userType;
-    double userHeight = 20;
+    double userHeight = 50;
     double userWeight = 0;
     double userAge = 0;
     double bmi =0;
@@ -192,7 +192,7 @@ class _HomePageState extends State<HomePage> {
           MaterialButton(
             onPressed: (){
               bmi = (userWeight / ((userHeight * 0.01) * 2));
-              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> ResultPage(bmi: bmi,)));
+              Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ResultPage(bmi: bmi,)));
             },
             child: Padding(
               padding: const EdgeInsets.all(10),
