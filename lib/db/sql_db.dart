@@ -7,24 +7,26 @@ class SqlDb{
 
   Future<Database?> get database async{
     if(_database == null){
-      _database = await intialDb();
+      _database = await initialDb();
       return _database;
     } else {
       return _database;
     }
   }
 
-  intialDb() async {
+  initialDb() async {
     String dbPath = await getDatabasesPath();
-    Database notesDb = await openDatabase(join(dbPath,'notes.db'), onCreate: _onCreate, version: 1, onUpgrade: _onUpgrade);
+    Database notesDb = await openDatabase(join(dbPath,'notes_db.db'), onCreate: _onCreate, version: 1, onUpgrade: _onUpgrade);
     return notesDb;
   }
 
+  // To Create Tables
   _onCreate(Database db, int version) async{
     await db.execute(
         '''
-        create table "notes" ( "id" integer not null primary key autoincrement, "title" text not null, "content" text not null)
+        CREATE TABLE "notes" ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, content TEXT NOT NULL);
         ''');
+    print("**************** Created DB & table ****************");
   }
 
   _onUpgrade(Database db, int oldVersion, int newVersion){
