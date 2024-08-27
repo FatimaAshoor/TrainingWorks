@@ -16,7 +16,7 @@ class SqlDb{
 
   initialDb() async {
     String dbPath = await getDatabasesPath();
-    Database shoppingCartDb = await openDatabase(join(dbPath,'shopping_cart0.db'), onCreate: _onCreate, version: 3, onUpgrade: _onUpgrade);
+    Database shoppingCartDb = await openDatabase(join(dbPath,'shopping_cart0.db'), onCreate: _onCreate, version: 1, onUpgrade: _onUpgrade);
     return shoppingCartDb;
   }
 

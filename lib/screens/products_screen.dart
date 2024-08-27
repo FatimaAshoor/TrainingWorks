@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:training_works/services/shopping_cart_service.dart';
 
 import '../db/sql_db.dart';
 
@@ -11,25 +13,13 @@ class ProductsScreen extends StatefulWidget {
 
 class _ProductsScreenState extends State<ProductsScreen> {
 
-
-  SqlDb sqlDb = SqlDb();
-  Future<List<Map>> showProducts() async {
-    List<Map> response = await sqlDb.readData("SELECT * FROM products;");
-    print(response);
-    return response;
-  }
-
-  Future<List<Map>> addProductToCart(var proId) async {
-    List<Map> response = await sqlDb.updateData("INSERT INTO cart (productID) VALUES ($proId)");
-    print("---------------------------------------------------------- inserted to cart");
-    return response;
-  }
+  ShoppingCartService service = ShoppingCartService();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("All Products",style: TextStyle(fontSize: 24),),
+        title: Text("All Products",style: TextStyle(fontSize: 24.sp),),
         actions: [
           IconButton(onPressed: (){
             Navigator.of(context).pushNamed("cart");
@@ -39,14 +29,14 @@ class _ProductsScreenState extends State<ProductsScreen> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: FutureBuilder(
-            future: showProducts(),
+            future: service.showProducts(),
             builder: (context, snap){
               if(snap.connectionState==ConnectionState.waiting){
                 return Center(child: CircularProgressIndicator());
               }
               else if (snap.connectionState==ConnectionState.done){
                 if(snap.hasError){
-                  return Center(child: Text("ERROR", style: TextStyle(fontSize: 30),),);
+                  return Center(child: Text("ERROR", style: TextStyle(fontSize: 30.sp),),);
                 }
                 if(snap.hasData){
                   return ListView.builder(
@@ -54,13 +44,13 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       itemBuilder: (context, i){
                         return Card(
                             child: ListTile(
-                              title: Text("${snap.data?[i]["name"]}", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
-                              subtitle: Text("${snap.data?[i]["description"]}", style: TextStyle(fontSize: 18),),
-                              leading: Text("${snap.data?[i]["price"]}", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
+                              title: Text("${snap.data?[i]["name"]}", style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),),
+                              subtitle: Text("${snap.data?[i]["description"]}", style: TextStyle(fontSize: 18.sp),),
+                              leading: Text("${snap.data?[i]["price"]}", style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),),
                               trailing: IconButton(
                                 onPressed: (){
                                   setState(() {
-                                    addProductToCart(snap.data?[i]["id"]);
+                                    service.addProductToCart(snap.data?[i]["id"]);
 
                                   });
                                 },

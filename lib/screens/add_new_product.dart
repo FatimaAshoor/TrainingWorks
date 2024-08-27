@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:training_works/services/shopping_cart_service.dart';
 import '../db/sql_db.dart';
 
 class AddNewProduct extends StatefulWidget {
@@ -14,19 +16,13 @@ class _AddNewProductState extends State<AddNewProduct> {
   TextEditingController productDes =TextEditingController();
   TextEditingController productPrice =TextEditingController();
 
-  SqlDb sqlDb = SqlDb();
-
-  Future<int> addNewProduct() async {
-    int response = await sqlDb.insertData("INSERT INTO products (name, description, price) VALUES ('${productName.text}', '${productDes.text}', '${double.parse(productPrice.text)}')");
-    print("---------------------------------------------------------- inserted to products");
-    return response;
-  }
+  ShoppingCartService service = ShoppingCartService();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Products",style: TextStyle(fontSize: 24),),
+        title: Text("Add Products",style: TextStyle(fontSize: 24.sp),),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -37,22 +33,22 @@ class _AddNewProductState extends State<AddNewProduct> {
                 controller: productName,
                 decoration: InputDecoration(
                     hintText: "write the name here",
-                    hintStyle: TextStyle(fontSize: 30, color: Colors.grey)
+                    hintStyle: TextStyle(fontSize: 30.sp, color: Colors.grey)
                 ),
               ),
-              SizedBox(height: 10,),
+              SizedBox(height: 10.h,),
               TextField(
                 controller: productDes,
                 decoration: InputDecoration(
                     hintText: "write the description here",
-                    hintStyle: TextStyle(fontSize: 18, color: Colors.grey)
+                    hintStyle: TextStyle(fontSize: 18.sp, color: Colors.grey)
                 ),
               ),
               TextField(
                 controller: productPrice,
                 decoration: InputDecoration(
                     hintText: "write the price here",
-                    hintStyle: TextStyle(fontSize: 18, color: Colors.grey)
+                    hintStyle: TextStyle(fontSize: 18.sp, color: Colors.grey)
                 ),
               ),
             ],
@@ -61,7 +57,7 @@ class _AddNewProductState extends State<AddNewProduct> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async{
-          addNewProduct();
+          await service.addNewProduct(productName.text, productDes.text,double.parse(productPrice.text));
           Navigator.of(context).pushNamed("products");
         },
         child:  Icon(Icons.check),
