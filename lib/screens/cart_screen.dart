@@ -28,10 +28,11 @@ class _CartScreenState extends State<CartScreen> {
     return response;
   }
 
-  Future<List<Map>> totalCount() async {
-    List<Map> response = await sqlDb.readData("SELECT SUM(price) FROM products AS p JOIN cart AS c WHERE p.id = c.productID");
+  Future totalCount() async {
+    List<Map> response = await sqlDb.readData("SELECT SUM(price) AS price FROM products AS p JOIN cart AS c WHERE p.id = c.productID");
+    var res = response.first["price"];
     print(response);
-    return response;
+    return res;
   }
 
   @override
@@ -86,6 +87,10 @@ class _CartScreenState extends State<CartScreen> {
                               );
                             });
                       }
+
+                      else{
+                        return Text("This Cart Is Empty", style: TextStyle(fontSize: 60),);
+                      }
                     }
 
                     return Text("");
@@ -93,7 +98,27 @@ class _CartScreenState extends State<CartScreen> {
                   }),
             ),
             Divider(thickness: 2, color: Colors.red,),
-            Text("Total =${totalCount()}", style: TextStyle(fontSize: 26),)
+            FutureBuilder(
+                future: totalCount(),
+                builder: (context, snap){
+                  if(snap.connectionState==ConnectionState.waiting){
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  else if (snap.connectionState==ConnectionState.done){
+                    if(snap.hasError){
+                      return Center(child: Text("ERROR", style: TextStyle(fontSize: 30),),);
+                    }
+                    if(snap.hasData){
+                      return Text("Total = ${snap.data!.toString()}", style: TextStyle(fontSize: 26),);
+                    }
+                    else{
+                      return Text("Total = 0.0", style: TextStyle(fontSize: 26),);
+                    }
+                  }
+
+                  return Text("");
+
+                }),
 
           ],
         ),
