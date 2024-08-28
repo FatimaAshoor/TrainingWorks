@@ -34,14 +34,6 @@ class SqlDb{
     print("**************** Created DB & tables ****************");
   }
 
-  _onUpgrade2(Database db, int oldVersion, int newVersion) async{
-    await db.execute(
-        '''
-        INSERT INTO tips (content, typeID, title) VALUES ('Choose the Right Shampoo and Conditioner - Select a gentle sulfate-free shampoo that is tailored to your hair type e.g. dry oily color-treated. Use a moisturizing conditioner focusing on the mid-lengths and ends of your hair. Avoid over-washing as this can strip your hair of its natural oils.', 2, 'Choose the Right Shampoo '), ('Limit Heat Styling - Minimize the use of hot tools like blow dryers curling irons and straighteners as excessive heat can lead to dryness breakage and split ends. When using hot tools always apply a heat-protectant product and use the lowest heat setting possible. Allow your hair to air-dry whenever possible.', 2, 'Limit Heat Styling'), ('Get Regular Trims - Schedule trims every 6-8 weeks to remove split ends and maintain the overall health of your hair. Trimming just half an inch can make a significant difference in preventing further splitting and damage.', 2, 'Get Regular Trims'), ('Eat a Nutrient-Rich Diet - Consume a balanced diet that includes protein iron zinc biotin and vitamins A and E as these nutrients are essential for hair growth and strength. Good sources include lean meats eggs nuts seeds leafy greens and citrus fruits.', 2, 'Eat a Nutrient-Rich Diet');
-        ''');
-    print(" hair tips Done ");
-  }
-
   _onUpgrade(Database db, int oldVersion, int newVersion) async{
     await db.execute(
       /*
