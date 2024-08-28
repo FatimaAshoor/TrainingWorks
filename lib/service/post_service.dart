@@ -15,18 +15,13 @@ class PostService{
 
       SqlDb sqlDb = SqlDb();
 
-      for(var p in data){
+      for(var p in data["posts"]){
         await sqlDb.insertData(
-          PostModel(
-              id: p["posts"]["id"],
-              title: p["posts"]["title"],
-              body: p["posts"]["body"]
-          ),
+          PostModel.fromJson(p),
         );
       }
       return data;
     }
-
     else{
       return "ERROR";
     }
