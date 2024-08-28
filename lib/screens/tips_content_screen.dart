@@ -19,7 +19,7 @@ class _TipsContentScreenState extends State<TipsContentScreen> {
           color: Colors.white
         ),
         backgroundColor: Colors.lightGreen,
-        title: Text("Details", style: TextStyle(color: Colors.white, fontSize: 28.sp, fontWeight: FontWeight.bold),),
+        title: Text("Details", style: TextStyle(color: Colors.white, fontSize: 22.sp, fontWeight: FontWeight.bold),),
         centerTitle: true,
       ),
       body: Container(
@@ -29,11 +29,20 @@ class _TipsContentScreenState extends State<TipsContentScreen> {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.all(10.sp),
-              margin: EdgeInsets.symmetric(horizontal: 50.sp),
+              padding: EdgeInsets.all(14.sp),
+              margin: EdgeInsets.symmetric(horizontal: 50.sp, vertical: 20.sp),
               decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.lightGreen.withOpacity(0.4),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 2), // changes position of shadow
+                  ),
+                ],
                 color: Colors.lightGreen,
-                borderRadius: BorderRadius.circular(10)
+                borderRadius: BorderRadius.circular(6),
+
               ),
               child: Text("${widget.title}", style: TextStyle(fontSize: 18.sp, color: Colors.white, fontWeight: FontWeight.bold),overflow: TextOverflow.fade,),
             ),
