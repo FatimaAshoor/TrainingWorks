@@ -13,7 +13,7 @@ class PostService{
     if(response.statusCode ==200){
       var data = jsonDecode(response.body);
 
-      SqlDb sqlDb = SqlDb();
+      var sqlDb = SqlDb.sqlDb;
 
       for(var p in data["posts"]){
         await sqlDb.insertData(
@@ -29,7 +29,7 @@ class PostService{
   }
 
   Future<List<Map>> showPosts() async {
-    SqlDb sqlDb = SqlDb();
+    var sqlDb = SqlDb.sqlDb;
     List<Map> response = await sqlDb.readData("SELECT * FROM post");
     return response;
   }

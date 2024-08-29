@@ -4,6 +4,9 @@ import 'package:training_works/model/post_model.dart';
 
 class SqlDb{
 
+
+  static final SqlDb sqlDb = SqlDb._();
+  SqlDb._();
   static Database? _database;
 
   Future<Database?> get database async{
