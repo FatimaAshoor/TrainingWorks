@@ -43,7 +43,7 @@ class _HomeState extends State<Home> {
                         itemCount: snap.data!.length,
                         itemBuilder: (context, i){
                           return ListTile(
-                            title: Text("${snap.data?[i]["title"]}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp)),
+                            title: Text("${snap.data?[i]["title"]}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
                             subtitle: Text("${snap.data?[i]["body"]}"),
                           );
                         });

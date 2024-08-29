@@ -26,12 +26,13 @@ class SqlDb{
     await db.execute(
         '''
         CREATE TABLE "post" (
-         id INTEGER NOT NULL PRIMARY KEY, 
+         id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, 
          title TEXT NOT NULL,
          body TEXT NOT NULL
         );
         ''');
   }
+
 
   readData(String sql) async {
     Database? Db = await database;
@@ -41,7 +42,7 @@ class SqlDb{
 
   insertData(PostModel postsModel) async {
     Database? Db = await database;
-    int response = await Db!.rawInsert("INSERT INTO post (id, title, body) VALUES (?, ?, ?)", [postsModel.id, postsModel.title, postsModel.body] );
+    int response = await Db!.rawInsert("INSERT INTO post (title, body) VALUES (?, ?)", [postsModel.title, postsModel.body] );
     return response;
   }
 
