@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:training_works/screens/add_new.dart';
+import 'package:training_works/screens/edit_content.dart';
 
 import '../service/post_service.dart';
 
@@ -42,9 +44,19 @@ class _HomeState extends State<Home> {
                     return ListView.builder(
                         itemCount: snap.data!.length,
                         itemBuilder: (context, i){
-                          return ListTile(
-                            title: Text("${snap.data?[i]["title"]}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-                            subtitle: Text("${snap.data?[i]["body"]}"),
+                          return InkWell(
+                            onTap: (){
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context)=> EditContent(id: snap.data?[i]["id"])));
+                            },
+                            child: ListTile(
+                              title: Text("${snap.data?[i]["title"]}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                              subtitle: Text("${snap.data?[i]["body"]}"),
+                              trailing: IconButton(
+                                onPressed: (){
+                                  postService.deleteData(snap.data?[i]["id"]);
+                                },
+                                icon: Icon(Icons.restore_from_trash),),
+                            ),
                           );
                         });
                   }
@@ -53,6 +65,13 @@ class _HomeState extends State<Home> {
 
               }),
         ),
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context)=> AddNew()));
+        },
+        child:  Icon(Icons.add,),
       ),
     );
   }

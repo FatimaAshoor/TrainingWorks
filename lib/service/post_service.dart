@@ -26,11 +26,10 @@ class PostService{
   }
 
 
-  Future addData(int id, String title, String body ) async{
+  Future addData(String title, String body ) async{
     try{
       var res = await post(Uri.parse("https://dummyjson.com/posts"), body: {
         jsonEncode({
-          'id' : id.toString(),
           'title' : title,
           'body' : body
         })
