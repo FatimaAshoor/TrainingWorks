@@ -2,9 +2,15 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SqlDb{
+  static String dbName= "notes_db";
+  static int dbVersion= 1;
+
+  static String tableName= "note";
+  static String columnId = "id";
+  static String columnTitle= "title";
+  static String columnContent= "content";
 
   static Database? _database;
-
   Future<Database?> get database async{
     if(_database == null){
       _database = await initialDb();
@@ -13,18 +19,19 @@ class SqlDb{
       return _database;
     }
   }
-
   initialDb() async {
     String dbPath = await getDatabasesPath();
-    Database notesDb = await openDatabase(join(dbPath,'notes_db.db'), onCreate: _onCreate, version: 1, onUpgrade: _onUpgrade);
+    Database notesDb = await openDatabase(join(dbPath,'$dbName.db'), onCreate: _onCreate, version: dbVersion, onUpgrade: _onUpgrade);
     return notesDb;
   }
 
-  // To Create Tables
   _onCreate(Database db, int version) async{
     await db.execute(
         '''
-        CREATE TABLE "notes" ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, content TEXT NOT NULL);
+        CREATE TABLE "$tableName" (
+        $columnId INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        $columnTitle TEXT NOT NULL,
+        $columnContent TEXT NOT NULL);
         ''');
     print("**************** Created DB & table ****************");
   }
