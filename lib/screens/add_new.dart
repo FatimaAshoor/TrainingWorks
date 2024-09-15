@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:training_works/screens/home.dart';
 
@@ -20,7 +19,7 @@ class _AddNewState extends State<AddNew> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add",style: TextStyle(fontSize: 24),),
+        title: const Text("Add",style: TextStyle(fontSize: 24),),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -29,15 +28,15 @@ class _AddNewState extends State<AddNew> {
             children: [
               TextField(
                 controller: titleController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     hintText: "Title",
                     hintStyle: TextStyle(fontSize: 30, color: Colors.grey)
                 ),
               ),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               TextField(
                 controller: contentController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     border: InputBorder.none,
                     hintText: "write the content here",
                     hintStyle: TextStyle(fontSize: 18, color: Colors.grey)
@@ -52,7 +51,7 @@ class _AddNewState extends State<AddNew> {
           postService.addData( titleController.text, contentController.text);
           Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Home()));
         },
-        child:  Icon(Icons.check),
+        child: const Icon(Icons.check),
       ),
     );
   }

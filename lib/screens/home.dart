@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:training_works/screens/add_new.dart';
 import 'package:training_works/screens/edit_content.dart';
 
+import '../model/post_model.dart';
 import '../service/post_service.dart';
 
 class Home extends StatefulWidget {
@@ -25,20 +25,20 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Dealing with API"),
+        title: const Text("Dealing with API"),
       ),
       body: Center(
         child: Padding(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: FutureBuilder(
               future: postService.showPosts(),
               builder: (context, snap){
                 if(snap.connectionState==ConnectionState.waiting){
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }
                 else if (snap.connectionState==ConnectionState.done){
                   if(snap.hasError){
-                    return Center(child: Text("ERROR", style: TextStyle(fontSize: 30),),);
+                    return Center(child: Text("Error: ${snap.error}", style: const TextStyle(fontSize: 30),),);
                   }
                   if(snap.hasData){
                     return ListView.builder(
@@ -46,22 +46,22 @@ class _HomeState extends State<Home> {
                         itemBuilder: (context, i){
                           return InkWell(
                             onTap: (){
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context)=> EditContent(id: snap.data?[i]["id"])));
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context)=> EditContent(id: snap.data![i].id!)));
                             },
                             child: ListTile(
-                              title: Text("${snap.data?[i]["title"]}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-                              subtitle: Text("${snap.data?[i]["body"]}"),
+                              title: Text("${snap.data![i].title}", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                              subtitle: Text("${snap.data![i].body}"),
                               trailing: IconButton(
                                 onPressed: (){
-                                  postService.deleteData(snap.data?[i]["id"]);
+                                  postService.deleteData(snap.data![i].id!);
                                 },
-                                icon: Icon(Icons.restore_from_trash),),
+                                icon: const Icon(Icons.restore_from_trash),),
                             ),
                           );
                         });
                   }
                 }
-                return Text("");
+                return const Text("");
 
               }),
         ),
@@ -71,7 +71,7 @@ class _HomeState extends State<Home> {
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(builder: (context)=> AddNew()));
         },
-        child:  Icon(Icons.add,),
+        child: const Icon(Icons.add,),
       ),
     );
   }

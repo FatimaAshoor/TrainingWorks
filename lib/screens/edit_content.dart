@@ -1,9 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../service/post_service.dart';
-
-
 
 class EditContent extends StatefulWidget {
   final int id ;
@@ -17,13 +13,12 @@ class _EditContentState extends State<EditContent> {
   TextEditingController titleController =TextEditingController();
   TextEditingController contentController =TextEditingController();
 
-
   PostService postService = PostService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Edit",style: TextStyle(fontSize: 24),),
+        title: const Text("Edit",style: TextStyle(fontSize: 24),),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -32,15 +27,15 @@ class _EditContentState extends State<EditContent> {
             children: [
               TextField(
                 controller: titleController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     hintText: "Title",
                     hintStyle: TextStyle(fontSize: 30, color: Colors.grey)
                 ),
               ),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               TextField(
                 controller: contentController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     border: InputBorder.none,
                     hintText: "write the content here",
                     hintStyle: TextStyle(fontSize: 18, color: Colors.grey)
@@ -55,7 +50,7 @@ class _EditContentState extends State<EditContent> {
           postService.updateData(widget.id, titleController.text, contentController.text);
           Navigator.of(context).pushNamed("home");
         },
-        child:  Icon(Icons.check),
+        child: const Icon(Icons.check),
       ),
     );
   }

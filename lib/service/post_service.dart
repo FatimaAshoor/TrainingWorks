@@ -25,7 +25,6 @@ class PostService{
     }
   }
 
-
   Future addData(String title, String body ) async{
     try{
       var res = await post(Uri.parse("https://dummyjson.com/posts"), body: {
@@ -34,7 +33,6 @@ class PostService{
           'body' : body
         })
       });
-
       if(res.statusCode == 201){
         return PostModel.fromJson(jsonDecode(res.body));
       }
@@ -43,7 +41,6 @@ class PostService{
       print("Error :\n $e");
     }
   }
-
 
   Future updateData(int id, String title, String body ) async{
     try{
@@ -54,7 +51,6 @@ class PostService{
           'body' : body
         })
       });
-
       if(res.statusCode ==200){
         return PostModel.fromJson(jsonDecode(res.body));
       }
@@ -64,11 +60,8 @@ class PostService{
     }
   }
 
-
   Future deleteData(int id) async{
     var res = await delete(Uri.parse("https://dummyjson.com/posts/$id"));
-
-
       if(res.statusCode == 201 || res.statusCode ==200){
         return PostModel.fromJson(jsonDecode(res.body));
       }
@@ -77,11 +70,9 @@ class PostService{
       }
   }
 
-  Future<List<Map>> showPosts() async {
+  Future<List<PostModel>> showPosts() async {
     var sqlDb = SqlDb.sqlDb;
-    List<Map> response = await sqlDb.readData("SELECT * FROM post");
-    return response;
+    return await sqlDb.readData("SELECT * FROM post");
   }
-
 
 }
