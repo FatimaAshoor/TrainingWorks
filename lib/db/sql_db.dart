@@ -5,7 +5,7 @@ class SqlDb{
   static String dbName= "notes_db";
   static int dbVersion= 1;
 
-  static String tableName= "note";
+  static String tableName= "notes";
   static String columnId = "id";
   static String columnTitle= "title";
   static String columnContent= "content";

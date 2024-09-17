@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:training_works/constant/colors.dart';
 import 'package:training_works/db/sql_db.dart';
 import 'package:training_works/screens/show_note.dart';
+import 'package:training_works/widgets/note_card.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -46,35 +48,21 @@ class _HomeState extends State<Home> {
               }
               else if (snap.connectionState==ConnectionState.done){
                 if(snap.hasError){
-                  return Center(child: Text("ERROR"),);
+                  return Center(child: Text("ERROR:\n${snap.error}"),);
                 }
                 if(snap.hasData){
-                  return ListView.builder(
+                  return MasonryGridView.builder(
                     itemCount: snap.data!.length,
+                      gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
                       itemBuilder: (context, i){
-                        return GestureDetector(
-                          onTap: (){
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ShowNote(noteTitle: snap.data?[i]["title"], noteContent: snap.data?[i]["title"], noteId: snap.data?[i]["id"],)));
-                          },
-                          child: Card(
-                            color: i%2==0? NotesColor.blue : NotesColor.orange,
-                            child: ListTile(
-                              title: Text("${snap.data?[i]["title"]}", style: TextStyle(color: NotesColor.black, fontSize: 24, fontWeight: FontWeight.bold),),
-                              subtitle: Text("${snap.data?[i]["content"]}", style: TextStyle(color: NotesColor.black, fontSize: 18),),
-                              trailing: IconButton(
-                                onPressed: (){
-                                  setState(() {
-                                    deleteNote(snap.data![i]["id"]);
-
-                                  });
-                                },
-                                icon: Icon(Icons.restore_from_trash, color: Colors.red,),
-                              ),
-
-                            ),
-                          ),
-                        );
-                      });
+                        return NoteCard(
+                            cardColor: i%2==0? NotesColor.blue : NotesColor.orange,
+                            title: "${snap.data?[i]["title"]}",
+                            content: "${snap.data?[i]["content"]}",
+                            colorTitle: NotesColor.black,
+                            colorContent: NotesColor.white);
+                      }
+                  );
                 }
               }
 
