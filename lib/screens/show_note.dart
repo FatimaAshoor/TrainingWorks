@@ -21,7 +21,7 @@ class _ShowNoteState extends State<ShowNote> {
 
   SqlDb sqlDb = SqlDb();
   Future<int> updateNote() async {
-    int response = await sqlDb.updateData("UPDATE notes SET 'title' = '${titleController.text}', 'content' = '${contentController.text}' WHERE id = ${widget.noteId} ");
+    int response = await sqlDb.updateData("UPDATE note SET 'title' = '${titleController.text}', 'content' = '${contentController.text}' WHERE id = ${widget.noteId} ");
     print("---------------------------------------------------------- Updated");
     return response;
   }

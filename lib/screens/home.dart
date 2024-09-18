@@ -17,13 +17,13 @@ class _HomeState extends State<Home> {
   SqlDb sqlDb = SqlDb();
 
   Future<List<Map>> readNote() async {
-    List<Map> response = await sqlDb.readData("SELECT * FROM notes;");
+    List<Map> response = await sqlDb.readData("SELECT * FROM note;");
     print(response);
     return response;
   }
 
   Future<List<Map>> deleteNote(var id) async {
-    List<Map> response = await sqlDb.deleteData("DELETE FROM notes WHERE id = $id;");
+    List<Map> response = await sqlDb.deleteData("DELETE FROM note WHERE id = $id;");
     print(response);
     return response;
   }

@@ -20,7 +20,7 @@ class _AddNoteState extends State<AddNote> {
 
   SqlDb sqlDb = SqlDb();
   Future<int> addNote() async {
-    int response = await sqlDb.insertData("INSERT INTO notes (title, content) VALUES ('$noteTitle', '$noteContent')");
+    int response = await sqlDb.insertData("INSERT INTO note (title, content) VALUES ('$noteTitle', '$noteContent')");
     print("---------------------------------------------------------- inserted");
     return response;
   }
