@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:training_works/constant/colors.dart';
-
-import '../db/sql_db.dart';
+import 'package:training_works/model/note_model.dart';
+import '../service/note_service.dart';
 
 class AddNote extends StatefulWidget {
   const AddNote({super.key});
@@ -15,23 +14,18 @@ class _AddNoteState extends State<AddNote> {
   TextEditingController titleController =TextEditingController();
   TextEditingController contentController =TextEditingController();
 
-  String noteTitle ="";
-  String noteContent = "";
+  NoteService noteService = NoteService();
 
-  SqlDb sqlDb = SqlDb();
-  Future<int> addNote() async {
-    int response = await sqlDb.insertData("INSERT INTO note (title, content) VALUES ('$noteTitle', '$noteContent')");
-    print("---------------------------------------------------------- inserted");
-    return response;
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: NotesColor.black,
       appBar: AppBar(
         iconTheme: IconThemeData(
             color: NotesColor.black
         ),
         title: Text("Add Notes",style: TextStyle(color: NotesColor.black, fontSize: 24),),
+        backgroundColor: NotesColor.black,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -40,21 +34,15 @@ class _AddNoteState extends State<AddNote> {
             children: [
               TextField(
                 controller: titleController,
-                onChanged: (value){
-                  noteTitle = titleController.text;
-                },
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: "Title",
                   hintStyle: TextStyle(fontSize: 30, color: Colors.grey)
                 ),
               ),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               TextField(
                 controller: contentController,
-                onChanged: (value){
-                  noteContent = contentController.text;
-                },
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: "write the content here",
                     hintStyle: TextStyle(fontSize: 18, color: Colors.grey)
@@ -67,10 +55,11 @@ class _AddNoteState extends State<AddNote> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: NotesColor.orange,
         onPressed: () async{
-          addNote();
+          print("title: ${titleController.text}, CONTENT: ${contentController.text}");
+          noteService.addNote(NoteModel(title: titleController.text, content: contentController.text));
           Navigator.of(context).pushNamed("home");
         },
-        child:  Icon(Icons.check),
+        child: const Icon(Icons.check),
       ),
     );
   }

@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-
+import 'package:training_works/model/note_model.dart';
+import 'package:training_works/service/note_service.dart';
 import '../constant/colors.dart';
-import '../db/sql_db.dart';
 
 class ShowNote extends StatefulWidget {
-  final String noteTitle;
-  final String noteContent;
   final int noteId;
-  const ShowNote({super.key, required this.noteTitle, required this.noteContent, required this.noteId});
+  const ShowNote({super.key, required this.noteId});
 
   @override
   State<ShowNote> createState() => _ShowNoteState();
@@ -15,65 +13,77 @@ class ShowNote extends StatefulWidget {
 
 class _ShowNoteState extends State<ShowNote> {
   GlobalKey<FormState> formKey = GlobalKey();
-
   TextEditingController titleController =TextEditingController();
   TextEditingController contentController =TextEditingController();
 
-  SqlDb sqlDb = SqlDb();
-  Future<int> updateNote() async {
-    int response = await sqlDb.updateData("UPDATE note SET 'title' = '${titleController.text}', 'content' = '${contentController.text}' WHERE id = ${widget.noteId} ");
-    print("---------------------------------------------------------- Updated");
-    return response;
-  }
+  NoteService noteService = NoteService();
+
 
   @override
   Widget build(BuildContext context) {
-    String noteTitle = widget.noteTitle;
-    String noteContent = widget.noteContent;
     return Scaffold(
+        backgroundColor: NotesColor.black,
         appBar: AppBar(
           iconTheme: IconThemeData(
-              color: NotesColor.black
+              color: NotesColor.white
           ),
-          title: Text("Edit Notes",style: TextStyle(color: NotesColor.black, fontSize: 26),),
+          title: Text("Edit Notes",style: TextStyle(color: NotesColor.white, fontSize: 22),),
+          backgroundColor: NotesColor.black,
         ),
         body: SingleChildScrollView(
-          child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Form(
-                key: formKey,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      controller: titleController,
-                      decoration: InputDecoration(
-                        hintText: "$noteTitle",
-                        hintStyle: TextStyle(fontSize: 30, color: Colors.grey),
-                        border: InputBorder.none,
-                      ),
-                    ),
-                    SizedBox(height: 10,),
-                    TextFormField(
-                      controller: contentController,
-                      decoration: InputDecoration(
-                        hintText: "$noteContent",
-                        hintStyle: TextStyle(fontSize: 18, color: Colors.grey),
-                        border: InputBorder.none,
-                      ),
-                    )
-                  ],
-                ),
-              )
+          child: FutureBuilder(
+              future: noteService.showNote(NoteModel(id: widget.noteId)),
+              builder: (context, snap){
+                if(snap.connectionState==ConnectionState.waiting){
+                  return const Center(child: CircularProgressIndicator());
+                }
+                else if (snap.connectionState==ConnectionState.done){
+                  if(snap.hasError){
+                    return Center(child: Text("ERROR:\n${snap.error}"),);
+                  }
+                  if(snap.hasData){
+                    return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Form(
+                          key: formKey,
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                controller: titleController,
+                                decoration: InputDecoration(
+                                  hintText: "${snap.data!.first.title}",
+                                  hintStyle: TextStyle(fontSize: 30, color: NotesColor.white),
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                              const SizedBox(height: 10,),
+                              TextFormField(
+                                controller: contentController,
+                                decoration: InputDecoration(
+                                  hintText: "${snap.data!.first.content}",
+                                  hintStyle: TextStyle(fontSize: 18, color: NotesColor.white),
+                                  border: InputBorder.none,
+                                ),
+                              )
+                            ],
+                          ),
+                        )
 
-          ),
+                    );
+                  }
+                }
+
+                return const Text("");
+
+              }),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: (){
-            updateNote();
+            noteService.updateNote(NoteModel(id: widget.noteId));
             Navigator.of(context).pushNamed("home");
           } ,
-          backgroundColor: Colors.cyanAccent,
-          child:  Icon(Icons.check, color: Colors.black,),
+          backgroundColor: NotesColor.green,
+          child:  Icon(Icons.check, color: NotesColor.black,),
         )
     );
   }

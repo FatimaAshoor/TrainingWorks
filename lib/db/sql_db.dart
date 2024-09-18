@@ -1,6 +1,8 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../model/note_model.dart';
+
 class SqlDb{
   static String dbName= "notes_db";
   static int dbVersion= 1;
@@ -36,31 +38,35 @@ class SqlDb{
     print("**************** Created DB & table ****************");
   }
 
-  _onUpgrade(Database db, int oldVersion, int newVersion){
-
+  _onUpgrade(Database db, int oldVersion, int newVersion) async {
+      /*await db.execute('''
+      ALTER TABLE "$tableName" 
+      ADD COLUMN "$columnDate" INTEGER NOT NULL DEFAULT 0;
+    ''');
+      print("**************** Updated DB & added date column ****************");*/
   }
 
-  readData(String sql) async {
+  Future<List<NoteModel>> readData(String sql) async {
     Database? notesDb = await database;
     List<Map> response = await notesDb!.rawQuery(sql);
+    return response.map((noteMap) => NoteModel.fromJson(noteMap)).toList();
+  }
+
+  Future<int> insertData(String sql,NoteModel noteModel) async {
+    Database? notesDb = await database;
+    int response = await notesDb!.rawInsert(sql, [noteModel.title, noteModel.content]);
     return response;
   }
 
-  insertData(String sql) async {
+  Future<int> updateData(NoteModel noteModel) async {
     Database? notesDb = await database;
-    int response = await notesDb!.rawInsert(sql);
+    int response = await notesDb!.rawUpdate("UPDATE $tableName SET title = ?, content = ? WHERE id = ?;", [noteModel.title, noteModel.content, noteModel.id]);
     return response;
   }
 
-  updateData(String sql) async {
+  Future<int> deleteData(NoteModel noteModel) async {
     Database? notesDb = await database;
-    int response = await notesDb!.rawUpdate(sql);
-    return response;
-  }
-
-  deleteData(String sql) async {
-    Database? notesDb = await database;
-    int response = await notesDb!.rawDelete(sql);
+    int response = await notesDb!.rawDelete("DELETE FROM $tableName WHERE id = ${noteModel.id};");
     return response;
   }
 }

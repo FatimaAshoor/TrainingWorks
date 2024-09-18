@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:training_works/constant/colors.dart';
-import 'package:training_works/db/sql_db.dart';
 import 'package:training_works/screens/show_note.dart';
 import 'package:training_works/widgets/note_card.dart';
+import '../service/note_service.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -14,68 +14,61 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  SqlDb sqlDb = SqlDb();
-
-  Future<List<Map>> readNote() async {
-    List<Map> response = await sqlDb.readData("SELECT * FROM note;");
-    print(response);
-    return response;
-  }
-
-  Future<List<Map>> deleteNote(var id) async {
-    List<Map> response = await sqlDb.deleteData("DELETE FROM note WHERE id = $id;");
-    print(response);
-    return response;
-  }
-
-
+  NoteService noteService = NoteService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: NotesColor.black,
       appBar: AppBar(
         iconTheme: IconThemeData(
-            color: NotesColor.black
+            color: NotesColor.white
         ),
-        title: Text("All Notes",style: TextStyle(color: NotesColor.black, fontSize: 24),),
+        title: Text("All Notes",style: TextStyle(color: NotesColor.white, fontSize: 22),),
+        backgroundColor: NotesColor.black,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(left: 4, right: 4),
         child: FutureBuilder(
-            future: readNote(),
+            future: noteService.loadNotes(),
             builder: (context, snap){
               if(snap.connectionState==ConnectionState.waiting){
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
               else if (snap.connectionState==ConnectionState.done){
                 if(snap.hasError){
-                  return Center(child: Text("ERROR:\n${snap.error}"),);
+                  return Center(child: Text("ERROR:\n${snap.error}", style: TextStyle(fontSize: 20, color: NotesColor.white),),);
                 }
                 if(snap.hasData){
                   return MasonryGridView.builder(
                     itemCount: snap.data!.length,
-                      gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                      gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                      ),
                       itemBuilder: (context, i){
                         return NoteCard(
-                            cardColor: i%2==0? NotesColor.blue : NotesColor.orange,
-                            title: "${snap.data?[i]["title"]}",
-                            content: "${snap.data?[i]["content"]}",
-                            colorTitle: NotesColor.black,
-                            colorContent: NotesColor.white);
+                          onTap: (){
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ShowNote(noteId:snap.data![i].id!,)));
+                          },
+                            cardColor: NotesColor.grey,//i%2==0? NotesColor.blue : NotesColor.orange,
+                            title: "${snap.data?[i].title}",
+                            content: "${snap.data?[i].content}",
+                            colorTitle: NotesColor.white,
+                            colorContent: NotesColor.lightGrey);
                       }
                   );
                 }
               }
 
-              return Text("");
+              return const Text("");
 
             }),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: NotesColor.orange,
+        backgroundColor: NotesColor.green,
         onPressed: () {
           Navigator.of(context).pushNamed("addNote");
         },
-        child:  Icon(Icons.add, color: NotesColor.black,),
+        child:  Icon(Icons.add, color: NotesColor.grey,),
       ),
     );
   }
