@@ -14,8 +14,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Todo App"),),
-      body: SingleChildScrollView(
-        child: Padding(
+      body: Padding(
           padding: const EdgeInsets.all(10),
           child: Consumer<TodoModel>(
               builder: (context, todo, child){
@@ -33,10 +32,9 @@ class _HomeState extends State<Home> {
           ),
 
         ),
-      ),
       floatingActionButton: FloatingActionButton(
           onPressed: (){
-            Provider.of<TodoModel>(context).addTask();
+            Provider.of<TodoModel>(context, listen: true).addTask();
           }
       ),
     );
