@@ -19,12 +19,12 @@ class _HomeState extends State<Home> {
           child: Consumer<TodoModel>(
               builder: (context, todo, child){
                 return ListView.builder(
-                    itemCount: todo.taskList.length ,
+                    itemCount: 10 ,
                     itemBuilder: (context, i){
                       return Container(
                         child: ListTile(
-                          title: Text(todo.taskList[i].title),
-                          subtitle: Text(todo.taskList[i].detail),
+                          title: Text("title"),
+                          subtitle: Text("detail"),
                         ) ,
                       );
                     });
