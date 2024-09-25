@@ -22,9 +22,9 @@ class _AddNoteState extends State<AddNote> {
       backgroundColor: NotesColor.black,
       appBar: AppBar(
         iconTheme: IconThemeData(
-            color: NotesColor.black
+            color: NotesColor.white
         ),
-        title: Text("Add Notes",style: TextStyle(color: NotesColor.black, fontSize: 24),),
+        title: Text("Add Note",style: TextStyle(color: NotesColor.white, fontSize: 22),),
         backgroundColor: NotesColor.black,
       ),
       body: SingleChildScrollView(

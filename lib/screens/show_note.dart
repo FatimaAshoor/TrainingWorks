@@ -27,7 +27,7 @@ class _ShowNoteState extends State<ShowNote> {
           iconTheme: IconThemeData(
               color: NotesColor.white
           ),
-          title: Text("Edit Notes",style: TextStyle(color: NotesColor.white, fontSize: 22),),
+          title: Text("Edit Note",style: TextStyle(color: NotesColor.white, fontSize: 22),),
           backgroundColor: NotesColor.black,
         ),
         body: SingleChildScrollView(
