@@ -34,18 +34,21 @@ class _AddNoteState extends State<AddNote> {
             children: [
               TextField(
                 controller: titleController,
-                decoration: const InputDecoration(
+                style: TextStyle(color: NotesColor.white),
+                decoration: InputDecoration(
                   hintText: "Title",
-                  hintStyle: TextStyle(fontSize: 30, color: Colors.grey)
+                  hintStyle: TextStyle(fontSize: 30, color: NotesColor.grey)
                 ),
               ),
               const SizedBox(height: 10,),
               TextField(
                 controller: contentController,
-                decoration: const InputDecoration(
+                style: TextStyle(color: NotesColor.white),
+                maxLines: 30,
+                decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: "write the content here",
-                    hintStyle: TextStyle(fontSize: 18, color: Colors.grey)
+                    hintStyle: TextStyle(fontSize: 18, color: NotesColor.grey)
                 ),
               )
             ],
@@ -53,9 +56,8 @@ class _AddNoteState extends State<AddNote> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: NotesColor.orange,
+        backgroundColor: NotesColor.green,
         onPressed: () async{
-          print("title: ${titleController.text}, CONTENT: ${contentController.text}");
           noteService.addNote(NoteModel(title: titleController.text, content: contentController.text));
           Navigator.of(context).pushNamed("home");
         },

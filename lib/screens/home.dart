@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:training_works/constant/colors.dart';
+import 'package:training_works/model/note_model.dart';
 import 'package:training_works/screens/show_note.dart';
 import 'package:training_works/widgets/note_card.dart';
 import '../service/note_service.dart';
@@ -13,7 +14,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   NoteService noteService = NoteService();
   @override
   Widget build(BuildContext context) {
@@ -49,6 +49,10 @@ class _HomeState extends State<Home> {
                           onTap: (){
                             Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ShowNote(noteId:snap.data![i].id!,)));
                           },
+                            onPressedIcon: (){
+                              noteService.deleteNote(NoteModel(id: snap.data![i].id!));
+                              Navigator.of(context).pushNamed("home");
+                            },
                             cardColor: NotesColor.grey,//i%2==0? NotesColor.blue : NotesColor.orange,
                             title: "${snap.data?[i].title}",
                             content: "${snap.data?[i].content}",
@@ -58,7 +62,6 @@ class _HomeState extends State<Home> {
                   );
                 }
               }
-
               return const Text("");
 
             }),

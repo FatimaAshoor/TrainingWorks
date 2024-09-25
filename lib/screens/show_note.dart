@@ -50,6 +50,7 @@ class _ShowNoteState extends State<ShowNote> {
                             children: [
                               TextFormField(
                                 controller: titleController,
+                                style: TextStyle(color: NotesColor.white),
                                 decoration: InputDecoration(
                                   hintText: "${snap.data!.first.title}",
                                   hintStyle: TextStyle(fontSize: 30, color: NotesColor.white),
@@ -59,6 +60,8 @@ class _ShowNoteState extends State<ShowNote> {
                               const SizedBox(height: 10,),
                               TextFormField(
                                 controller: contentController,
+                                style: TextStyle(color: NotesColor.white),
+                                maxLines: 30,
                                 decoration: InputDecoration(
                                   hintText: "${snap.data!.first.content}",
                                   hintStyle: TextStyle(fontSize: 18, color: NotesColor.white),
@@ -79,7 +82,7 @@ class _ShowNoteState extends State<ShowNote> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: (){
-            noteService.updateNote(NoteModel(id: widget.noteId));
+            noteService.updateNote(NoteModel(id: widget.noteId, title: titleController.text, content: contentController.text));
             Navigator.of(context).pushNamed("home");
           } ,
           backgroundColor: NotesColor.green,

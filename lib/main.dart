@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:training_works/screens/add_note.dart';
 import 'package:training_works/screens/home.dart';
-import 'package:training_works/screens/show_note.dart';
 
 void main() {
   runApp(const MyApp());
