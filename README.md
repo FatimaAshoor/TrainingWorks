@@ -1,16 +1,7 @@
-# training_works
+Training Works
+This repository contains a collection of simple projects I built during my training period.
+Each branch represents a separate project I worked on — you can explore them individually by switching between branches.
 
-A new Flutter project.
+Projects vary in purpose and tools, and were mainly created for practice and learning.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Feel free to check out each branch to see the different works!
